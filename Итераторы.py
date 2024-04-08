@@ -42,14 +42,39 @@
 # print('Я - Алексей' in my_family)
 
 
-def fibonacci(n):
-    result = []
-    a, b = 0, 1
-    for _ in range(n):
-        result.append(a)
-        a, b = b, a + b
-    return result
+# def fibonacci(n):
+#     result = []
+#     a, b = 0, 1
+#     for _ in range(n):
+#         result.append(a)
+#         a, b = b, a + b
+#     return result
+#
+# fib = fibonacci
+# for value in fibonacci(n=10):
+#     print(value)
 
-fib = fibonacci
-for value in fibonacci(n=10):
+
+class Fibonacci:
+    # Итератор последовательности Фибоначчии жо № элементов
+
+    def __init__(self, n):
+        self.i, self.a, self.b, self.n = 0, 0, 1, n
+
+    def __iter__(self):
+        self.i, self.a, self.b = 0, 0, 1
+        return self
+
+    def __next__(self):
+        self.i += 1
+        if self.i > 1:
+            if self.i > self.n:
+                raise StopIteration()
+            self.a, self.b = self.b, self.a + self.b
+        return self.a
+
+fib_iterator = Fibonacci(n=10)
+print(fib_iterator)
+for value in fib_iterator:
     print(value)
+print(13 in fib_iterator)
