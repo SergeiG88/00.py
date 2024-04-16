@@ -3,7 +3,7 @@ def is_prime(func):
     def wrapper(*n):
         print('Простое')
         func(*n)
-        # print('Составное')
+        print('Составное')
     return wrapper
 
 @is_prime
