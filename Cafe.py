@@ -38,7 +38,7 @@ class Cafe:
             if not table.is_busy:
                 table.is_busy = True
                 print(f'Посетитель номер {customer.number} сел за стол {table.number}')
-                time.sleep(5)
+                time.sleep(3)
                 print(f'Посетитель номер {customer.number} покушал и ушел')
                 table.is_busy = False
                 break
