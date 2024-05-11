@@ -41,10 +41,9 @@ if __name__ == '__main__':
         ("product3", "receipt", 200),
         ("product2", "shipment", 50)
     ]
-# if __name__ == '__main__':
-    # data = multiprocessing.Manager().dict()
+
     manager.run(requests)
-#
+
     print(manager.data)
 
 
