@@ -1,19 +1,23 @@
-from pprint import pprint
+import requests as rq
+import logging.config
+from log_settings import log_config
 
-# file_name = 'byron.txt'
-# file = open(file_name, mode='rb')  # mode (режим): чтение бинарное
-# file_content = file.read()
-# file.close()
-# pprint(file.content)
+logging.config.dictConfig(log_config)
+logger = logging.getLogger('RequestsLogger')
 
-# file_name = 'pushkin.txt'
-# file = open(file_name, mode='rb')  # mode (режим): чтение бинарное
-# file_content = file.read()
-# file.close()
-# pprint(file_content.decode('utf8'))
+sites = ['https://www.youtube.com/', 'https://instagram.com', 'https://wikipedia.org', 'https://yahoo.com',
+         'https://yandex.ru', 'https://whatsapp.com', 'https://twitter.com', 'https://amazon.com', 'https://tiktok.com',
+         'https://www.ozon.ru']
 
-file_name = 'repka_1.txt'
-file = open(file_name, mode='r', encoding='utf8')  # mode (режим): чтение бинарное
-file_content = file.read()
-file.close()
-pprint(file_content)
+for site in sites:
+    try:
+        response = rq.get(site, timeout=3)
+        site_code = response.status_code
+        if response.status_code == 200:
+            log_suc = logging.getLogger('success')
+            log_suc.info(f'{site}, response - {site_code}')
+        elif response.status_code != 200:
+            log_bad = logging.getLogger('bad')
+            log_bad.warning(f'{site}, response - {site_code}')
+    except Exception:
+        logging.exception(f'NO CONNECTION')
