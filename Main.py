@@ -1,31 +1,27 @@
 import csv
-import json
 
-csv_filename = 'example.csv'
-csv_data = [
-    ['Name', 'Age', 'City'],
-    ['Alice', 30, 'New York'],
-    ['Bob', 25, 'Los Angeles'],
-    ['Алексей', 47, 'Калуга']
-]
-with open(csv_filename, mode='w', newline='', encoding='utf-8') as file:
-    writer = csv.writer(file)
-    writer.writerows(csv_data)
-print('CSV DATA:')
-with open(csv_filename, mode='r', newline='', encoding='utf-8') as file:
-    reader = csv.reader(file)
-    for row in reader:
-        print(row)
+name = []
+have_visit = set()
+want_to_visit = set()
 
-json_filename = 'data.json'
-json_data = {
-    'name': 'Alice',
-    'age': 30,
-    'city': 'New York'
- }
-with open(json_filename, 'w', encoding='utf-8') as file:
-    json.dump(json_data, file, ensure_ascii=False, indent=4)
-print('\nJSON DATA:')
-with open(json_filename, 'r', encoding='utf-8') as file:
-    data = json.load(file)
-    print(data)
+
+def write_holiday_cities(first_letter):
+    with open(file='travel-notes.csv', mode='r', newline='', encoding='utf-8') as data_file:
+        read_file = csv.reader(data_file, delimiter=',')
+        for read_line in read_file:
+            if first_letter in read_line[0][0]:
+                for row in read_line[0].split(':'):
+                    name.append(row)
+                for row in read_line[1].split(':'):
+                    have_visit.add(row)
+                for row in read_line[2].split(':'):
+                    want_to_visit.add(row)
+
+    with open(file='holiday.csv', mode='w', newline='', encoding='utf-8') as data_file:
+        writer = csv.writer(data_file)
+        writer.writerow(('Были в городах: ', sorted(have_visit)))
+        writer.writerow(('Хотят посетить города: ', sorted(want_to_visit)))
+        writer.writerow(('Не были в городах: ', sorted(want_to_visit.difference(have_visit))))
+        writer.writerow(('Первый город для посещения: ', sorted(want_to_visit.difference(have_visit))[0]))
+
+write_holiday_cities(first_letter='L')
